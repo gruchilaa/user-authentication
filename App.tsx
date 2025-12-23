@@ -19,7 +19,7 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <SafeAreaView edges={['top']} style={{ flex: 1 }}>
+      <SafeAreaView edges={[]} style={{ flex: 1 }}>
         <Routes />
       </SafeAreaView>
     </SafeAreaProvider>

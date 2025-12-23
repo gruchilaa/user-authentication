@@ -11,6 +11,7 @@ const createStyles = (theme: ColorTypes) => {
       padding: getHeightByPercentage(1.5),
       borderRadius: getHeightByPercentage(1),
       gap: getHeightByPercentage(1),
+      backgroundColor: theme.surfaceBase
     },
     label: {
       color: theme.defaultLabel,
