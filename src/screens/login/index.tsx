@@ -44,6 +44,7 @@ const Login = () => {
     },
   });
   const [genericError, setGenericError] = useState<string | undefined>();
+  const [securePassword, setSecurePassword] = useState<boolean>(true);
 
   const updateValues = (key: TFormKey, value: string) => {
     setLoginForm(prev => {
@@ -136,6 +137,8 @@ const Login = () => {
                 placeholder={LABELS.password}
                 icon={images.lock}
                 errorMessage={loginForm.password.error}
+                secure={securePassword}
+                secureAction={() => setSecurePassword(!securePassword)}
               />
             </View>
             {genericError ? (
