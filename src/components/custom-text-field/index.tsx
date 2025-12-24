@@ -18,6 +18,7 @@ interface ICustomTextField {
   errorMessage?: string;
   required?: boolean;
   icon?: ImageSourcePropType | undefined;
+  secure?: boolean;
   onChange: (text: string) => void;
 }
 
@@ -28,6 +29,7 @@ const CustomTextField = ({
   errorMessage,
   required = false,
   icon,
+  secure = false,
   onChange,
 }: ICustomTextField) => {
   const colors = useThemeColor();
@@ -48,9 +50,10 @@ const CustomTextField = ({
           onChangeText={onChange}
           placeholder={placeholder}
           keyboardType={'default'}
+          secureTextEntry={secure}
         />
-        {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
       </View>
+      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
     </Fragment>
   );
 };

@@ -7,11 +7,12 @@ import { createContext, useContext, useState } from 'react';
 export type TUser = {
   email: string;
   password: string;
+  name: string;
 };
 
 type AuthContextType = {
-  user?: string;
-  login: (userDetails: TUser) => Promise<void>;
+  user?: Omit<TUser, 'password'>;
+  login: (userDetails: Omit<TUser, 'name'>) => Promise<void>;
   signUp: (userDetails: TUser) => Promise<void>;
   logout: () => void;
 };
@@ -21,12 +22,12 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<string | undefined>();
+  const [user, setUser] = useState<Omit<TUser, 'password'> | undefined>();
 
-  const login = async (userDetails: TUser) => {
+  const login = async (userDetails: Omit<TUser, 'name'>) => {
     //call login API
-    await loginMockApi(userDetails);
-    setUser(userDetails.email);
+    const response = await loginMockApi(userDetails);
+    setUser(response.data);
 
   };
 

@@ -5,11 +5,11 @@ let userData: TUser[] = [];
 export interface IResponse {
   status: 'success' | 'error';
   message?: string;
+  data?: Omit<TUser,'password'>
 }
 
 // mock login API
-export const loginMockApi = async (payload: TUser): Promise<IResponse> => {
-  console.log('login api', payload);
+export const loginMockApi = async (payload: Omit<TUser, 'name'>): Promise<IResponse> => {
   return await new Promise((resolve, reject) => {
     setTimeout(() => {
       // check if user exists
@@ -29,6 +29,10 @@ export const loginMockApi = async (payload: TUser): Promise<IResponse> => {
 
       resolve({
         status: 'success',
+        data: {
+          name: findUser.name,
+          email: findUser.email
+        }
       });
     }, 100);
   });
@@ -39,7 +43,7 @@ export const signUpMockApi = async (payload: TUser): Promise<IResponse> => {
   return await new Promise((resolve, reject) => {
     setTimeout(() => {
       //check if email exists
-      const findUser = userData.findIndex(
+      const findUser = userData.find(
         (user: TUser) => user.email === payload.email,
       );
 

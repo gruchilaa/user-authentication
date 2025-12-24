@@ -1,5 +1,5 @@
 export default {
-  email: require('@/assets/icons/email.jpg'),
-  lock: require('@/assets/icons/lock.jpg'),
-  background: require('@/assets/images/background.jpg')
+  email: require('@/assets/icons/mail/mail.png'),
+  lock: require('@/assets/icons/lock/lock.png'),
+  background: require('@/assets/images/background.jpg'),
 }

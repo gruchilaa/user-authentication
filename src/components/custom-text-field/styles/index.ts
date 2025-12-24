@@ -24,8 +24,8 @@ const createStyles = (theme: ColorTypes) => {
       flex: 1,
     },
     icon: {
-      width: getHeightByPercentage(3),
-      height: getHeightByPercentage(3),
+      width: getHeightByPercentage(2),
+      height: getHeightByPercentage(2),
     },
   });
 };

@@ -1,7 +1,6 @@
 export const LABELS = {
-  signIn: {
-    email: "Email",
-    password: "Password",
-    login: "Log in"
-  }
-}
+  email: 'Email',
+  password: 'Password',
+  login: 'Login',
+  goToSignup: 'Go to Signup',
+};
