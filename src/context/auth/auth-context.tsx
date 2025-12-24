@@ -1,8 +1,6 @@
-import {
-  loginMockApi,
-  signUpMockApi,
-} from '@/src/services/auth.service';
-import { createContext, useContext, useState } from 'react';
+import { loginMockApi, signUpMockApi } from '@/src/services/auth.service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 export type TUser = {
   email: string;
@@ -24,11 +22,16 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<Omit<TUser, 'password'> | undefined>();
 
+  useEffect(() => {
+    loadUser();
+  }, []);
+
   const login = async (userDetails: Omit<TUser, 'name'>) => {
     //call login API
     const response = await loginMockApi(userDetails);
     setUser(response.data);
 
+    await AsyncStorage.setItem('orbit-user', JSON.stringify(response.data));
   };
 
   const signUp = async (userDetails: TUser) => {
@@ -36,9 +39,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await signUpMockApi(userDetails);
   };
 
-  const logout = () => {
+  const logout = async () => {
     if (user) {
       setUser(undefined);
+      await AsyncStorage.removeItem('orbit-user');
+    }
+  };
+
+  const loadUser = async () => {
+    const userDetails = await AsyncStorage.getItem('orbit-user');
+    if (userDetails) {
+      setUser(JSON.parse(userDetails));
     }
   };
 
