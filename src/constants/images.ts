@@ -6,4 +6,6 @@ export default {
   eyeClose: require('@/assets/icons/eye-close/eye-close.png'),
   app: require('@/assets/images/orbit.png'),
   user: require('@/assets/icons/user/user.png'),
+  left: require('@/assets/icons/left/left.png'),
+  logout: require('@/assets/icons/logout/logout.png')
 }

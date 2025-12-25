@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import {
+  Image,
   StyleProp,
   Text,
   TextStyle,
@@ -15,7 +16,6 @@ interface ICustomButton {
   disabled?: boolean;
   customStyle?: StyleProp<ViewStyle>;
   iconUrl?: any;
-  iconColor?: string;
   customTextStyle?: StyleProp<TextStyle>;
   action?: () => void;
 }
@@ -25,6 +25,7 @@ const CustomButton = ({
   disabled = false,
   customStyle,
   customTextStyle,
+  iconUrl,
   action,
 }: ICustomButton) => {
   const colors = useThemeColor();
@@ -36,6 +37,12 @@ const CustomButton = ({
       onPress={action}
       disabled={disabled}
     >
+      {iconUrl ? (
+        <Image
+          source={iconUrl}
+          style={styles.icon}
+        />
+      ) : null}
       <Text style={[styles.buttonTitle, customTextStyle]}>{title}</Text>
     </TouchableOpacity>
   );

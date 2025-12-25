@@ -7,4 +7,7 @@ export const LABELS = {
   createAccount: 'Create Account',
   name: 'Name',
   cancel: 'Cancel',
+  welcome: 'Welcome',
+  userInformation: 'User Information',
+  logout: 'Logout'
 };
