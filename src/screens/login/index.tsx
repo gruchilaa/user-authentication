@@ -95,7 +95,7 @@ const Login = () => {
         email: loginForm.email.value,
         password: loginForm.password.value,
       };
-
+      setGenericError(undefined);
       await login(payload);
     } catch (error: unknown) {
       if (error instanceof Error) {
