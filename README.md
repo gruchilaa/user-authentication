@@ -34,3 +34,7 @@ User will be able to view his/her account details such as name and email. User s
 # Design Decisions
 
 The app uses AsyncStorage to persist the authentication state locally.This ensures that users remain logged in even after closing and reopening the app. I have also used useMemo hooks at some places to minimize the rendering when the function is being compute. I have created reusable components such as Button, Header, Text Field, Loader to maintain consistency across the application and reduce code duplication. This approach also makes it easier to implement future design or functional changes, as updates can be made in one place and reflected throughout the app.
+
+# Reference
+
+Video Link - https://youtu.be/ONnaPKomzcU
