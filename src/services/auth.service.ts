@@ -34,7 +34,7 @@ export const loginMockApi = async (payload: Omit<TUser, 'name'>): Promise<IRespo
           email: findUser.email
         }
       });
-    }, 100);
+    }, 3000);
   });
 };
 
@@ -59,6 +59,6 @@ export const signUpMockApi = async (payload: TUser): Promise<IResponse> => {
         status: 'success',
         message: 'User successfully added',
       });
-    }, 200);
+    }, 3000);
   });
 };

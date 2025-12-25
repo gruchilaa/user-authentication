@@ -18,6 +18,7 @@ import { emailRegex } from '@/utils/regex';
 import { useAuth } from '@/src/context/auth/auth-context';
 import createStyles from './styles';
 import { useAppNavigation } from '@/src/routes/useAppNavigation';
+import Spinner from '@/utils/spinnerRef';
 
 type TFormKey = 'name' | 'email' | 'password';
 
@@ -104,6 +105,7 @@ const SignUp = () => {
   };
 
   const submitForm = async () => {
+    Spinner.show(); //show spinner
     const payload = {
       name: values.name.value,
       email: values.email.value,
@@ -117,6 +119,8 @@ const SignUp = () => {
       if (error instanceof Error) {
         Alert.alert(error.message);
       }
+    } finally {
+      Spinner.hide(); //hide spinner
     }
   };
 

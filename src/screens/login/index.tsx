@@ -13,6 +13,7 @@ import CustomButton from '@/src/components/custom-button';
 import { useAuth } from '@/src/context/auth/auth-context';
 import { emailRegex } from '@/utils/regex';
 import { useAppNavigation } from '@/src/routes/useAppNavigation';
+import Spinner from '@/utils/spinnerRef';
 
 type TFormKey = 'email' | 'password';
 
@@ -93,18 +94,22 @@ const Login = () => {
 
   // Submit form
   const submitLoginForm = async () => {
+    Spinner.show(); //show spinner
     try {
       const payload = {
         email: loginForm.email.value,
         password: loginForm.password.value,
       };
+
       await login(payload);
-      navigation.navigate('home');
+
     } catch (error: unknown) {
       if (error instanceof Error) {
         // show error
         setGenericError(error.message);
       }
+    } finally {
+      Spinner.hide(); //show spinner
     }
   };
 
