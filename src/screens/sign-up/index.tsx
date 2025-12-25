@@ -47,6 +47,7 @@ const SignUp = () => {
       value: '',
     },
   });
+  const [securePassword, setSecurePassword] = useState<boolean>(true);
 
   const navigation = useAppNavigation();
   const { signUp } = useAuth();
@@ -59,52 +60,40 @@ const SignUp = () => {
     });
   };
 
-  const validateForm = () => {
-    let formIsValid = true;
-
+  const validateForm = (key: TFormKey) => {
     setValues(prev => {
       const updated = { ...prev };
+      const value = updated[key].value.trim();
 
-      Object.entries(updated).forEach(([key, value]) => {
-        console.log(value.value);
-        //validate required fields
-        if (value.value.trim() === '') {
-          formIsValid = false;
-          updated[key].error = 'This field is required';
-        } else {
-          updated[key].error = null;
-        }
-
+      //validate required fields
+      if (value.trim() === '') {
+        updated[key].error = 'This field is required';
+      } else if (key === 'email' && !emailRegex.test(value)) {
         //validate email format
-        if (key === 'email') {
-          if (!emailRegex.test(value.value)) {
-            formIsValid = false;
-            updated[key].error = 'Invalid email format.';
-          } else {
-            updated[key].error = null;
-          }
-        }
-
-        if (key === 'password') {
-          if (value.value.length < 6) {
-            formIsValid = false;
-            updated[key].error = 'Password length less than 6 characters.';
-          } else {
-            updated[key].error = null;
-          }
-        }
-      });
+        updated[key].error = 'Invalid email format';
+      } else if (key === 'password' && value.length < 6) {
+        updated[key].error = 'Password length should be at least 6 characters.';
+      } else {
+        updated[key].error = undefined;
+      }
 
       return updated;
     });
-
-    if (formIsValid) {
-      //call sign up mock api
-      submitForm();
-    }
   };
 
   const submitForm = async () => {
+    // validate the form
+    Object.keys(values).forEach(key => validateForm(key as TFormKey));
+
+    //check if form is valid
+    const formIsValid = Object.values(values).every(
+      field => !field.error && field.value.trim() !== '',
+    );
+
+    if (!formIsValid) {
+      return;
+    }
+
     Spinner.show(); //show spinner
     const payload = {
       name: values.name.value,
@@ -113,7 +102,10 @@ const SignUp = () => {
     };
     try {
       await signUp(payload);
-      navigation.navigate('login');
+      Alert.alert('Succes', 'User successfully created', [
+        { text: 'OK', onPress: () => navigation.navigate('login') },
+      ]);
+
       //reset & navigate
     } catch (error) {
       if (error instanceof Error) {
@@ -145,6 +137,7 @@ const SignUp = () => {
                 icon={images.user}
                 errorMessage={values.name.error}
                 required={true}
+                onBlur={() => validateForm('name')}
               />
 
               <CustomTextField
@@ -155,6 +148,7 @@ const SignUp = () => {
                 icon={images.email}
                 errorMessage={values.email.error}
                 required={true}
+                onBlur={() => validateForm('email')}
               />
 
               <CustomTextField
@@ -163,15 +157,17 @@ const SignUp = () => {
                 onChange={e => updateValues('password', e)}
                 placeholder={LABELS.password}
                 icon={images.lock}
-                secure={true}
+                secure={securePassword}
                 errorMessage={values.password.error}
                 required={true}
+                secureAction={() => setSecurePassword(!securePassword)}
+                onBlur={() => validateForm('password')}
               />
             </View>
           </View>
 
           <View style={styles.buttonsContainer}>
-            <CustomButton title={LABELS.signUp} action={validateForm} />
+            <CustomButton title={LABELS.signUp} action={submitForm} />
             <CustomButton
               title={LABELS.cancel}
               customStyle={styles.cancelButton}

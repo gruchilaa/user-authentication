@@ -56,44 +56,39 @@ const Login = () => {
   };
 
   // validate login form
-  const validateForm = async () => {
-    let formIsValid = true;
-
+  const validateForm = async (key: TFormKey) => {
     setLoginForm((prev: ILoginForm) => {
       const updated: ILoginForm = { ...prev };
+      const value = updated[key].value.trim();
 
-      Object.entries(updated).forEach(([key, value]) => {
-        const fieldValue = value.value;
-        //validate required fields
-        if (fieldValue.trim() === '') {
-          formIsValid = false;
-          updated[key].error = 'This field is required';
-        } else if (key === 'email') {
-          //validate email format
-          if (!emailRegex.test(value.value)) {
-            formIsValid = false;
-            updated[key].error = 'Invalid email format.';
-          }
-        } else if (key === 'password') {
-          if (value.value.length < 6) {
-            formIsValid = false;
-            updated[key].error = 'Password length less than 6 characters.';
-          }
-        } else {
-          updated[key].error = null;
-        }
-      });
+      //validate required fields
+      if (value === '') {
+        updated[key].error = 'This field is required';
+      } else if (key === 'email' && !emailRegex.test(value)) {
+        //validate email format
+
+        updated[key].error = 'Invalid email format';
+      } else {
+        updated[key].error = undefined;
+      }
 
       return updated;
     });
-
-    if (formIsValid) {
-      submitLoginForm();
-    }
   };
 
   // Submit form
   const submitLoginForm = async () => {
+    // validate the form
+    Object.keys(loginForm).forEach(key => validateForm(key as TFormKey));
+
+    //check if form is valid
+    const formIsValid = Object.values(loginForm).every(
+      field => !field.error && field.value.trim() !== '',
+    );
+
+    if(!formIsValid) {
+      return;
+    }
     Spinner.show(); //show spinner
     try {
       const payload = {
@@ -102,7 +97,6 @@ const Login = () => {
       };
 
       await login(payload);
-
     } catch (error: unknown) {
       if (error instanceof Error) {
         // show error
@@ -134,6 +128,7 @@ const Login = () => {
                 placeholder={LABELS.email}
                 icon={images.email}
                 errorMessage={loginForm.email.error}
+                onBlur={() => validateForm('email')}
               />
 
               <CustomTextField
@@ -144,6 +139,7 @@ const Login = () => {
                 errorMessage={loginForm.password.error}
                 secure={securePassword}
                 secureAction={() => setSecurePassword(!securePassword)}
+                onBlur={() => validateForm('password')}
               />
             </View>
             {genericError ? (
@@ -152,7 +148,7 @@ const Login = () => {
               </View>
             ) : undefined}
 
-            <CustomButton title={LABELS.login} action={validateForm} />
+            <CustomButton title={LABELS.login} action={submitLoginForm} />
             <CustomButton
               title={LABELS.goToSignup}
               customStyle={styles.signUpButton}

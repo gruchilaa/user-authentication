@@ -23,6 +23,7 @@ interface ICustomTextField {
   secure?: boolean;
   onChange: (text: string) => void;
   secureAction?: () => void;
+  onBlur?: () => void;
 }
 
 const CustomTextField = ({
@@ -35,6 +36,7 @@ const CustomTextField = ({
   secure = false,
   onChange,
   secureAction,
+  onBlur,
 }: ICustomTextField) => {
   const colors = useThemeColor();
   const styles = useMemo(() => createStyles(colors), [colors]);
@@ -62,7 +64,12 @@ const CustomTextField = ({
           keyboardType={'default'}
           secureTextEntry={secure}
           onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onBlur={() => {
+            setFocused(false);
+            if (onBlur) {
+              onBlur();
+            }
+          }}
         />
         {!focused && value && secureAction && (
           <Pressable onPress={secureAction}>

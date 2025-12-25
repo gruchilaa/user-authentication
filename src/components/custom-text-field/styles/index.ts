@@ -6,9 +6,11 @@ const createStyles = (theme: ColorTypes) => {
   return StyleSheet.create({
     main: {
       flexDirection: 'row',
+      alignItems: 'center',
       borderColor: theme.border,
       borderWidth: 1,
-      padding: getHeightByPercentage(1.5),
+      height: getHeightByPercentage(6),
+      paddingHorizontal: getHeightByPercentage(1.5),
       borderRadius: getHeightByPercentage(1),
       gap: getHeightByPercentage(1),
       backgroundColor: theme.surfaceBase
