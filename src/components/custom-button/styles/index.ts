@@ -25,6 +25,10 @@ const creatStyles = (theme: ColorTypes) => {
     disabled: {
       opacity: 0.5,
     },
+     icon: {
+      width: getHeightByPercentage(2),
+      height: getHeightByPercentage(2),
+    },
   });
 };
 

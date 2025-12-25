@@ -125,6 +125,7 @@ const SignUp = () => {
       <CustomHeader
         title={LABELS.signUp}
         action={() => navigation.goBack()}
+        iconUrl={images.left}
       />
       <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss}>
         <View style={styles.main}>
