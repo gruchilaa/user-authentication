@@ -67,12 +67,12 @@ const SignUp = () => {
 
       //validate required fields
       if (value.trim() === '') {
-        updated[key].error = 'This field is required';
+        updated[key].error = LABELS.fieldRequired;
       } else if (key === 'email' && !emailRegex.test(value)) {
         //validate email format
-        updated[key].error = 'Invalid email format';
+        updated[key].error = LABELS.invalidEmailFormat;
       } else if (key === 'password' && value.length < 6) {
-        updated[key].error = 'Password length should be at least 6 characters.';
+        updated[key].error = LABELS.passwordLengthMessage;
       } else {
         updated[key].error = undefined;
       }
@@ -102,7 +102,7 @@ const SignUp = () => {
     };
     try {
       await signUp(payload);
-      Alert.alert('Succes', 'User successfully created', [
+      Alert.alert(LABELS.success, LABELS.userSuccessRegistered, [
         { text: 'OK', onPress: () => navigation.navigate('login') },
       ]);
 
@@ -130,7 +130,7 @@ const SignUp = () => {
 
             <View style={styles.subMain}>
               <CustomTextField
-                label={'Name'}
+                label={LABELS.name}
                 value={values.name.value}
                 onChange={e => updateValues('name', e)}
                 placeholder={LABELS.name}
@@ -141,7 +141,7 @@ const SignUp = () => {
               />
 
               <CustomTextField
-                label={'Email'}
+                label={LABELS.email}
                 value={values.email.value}
                 onChange={e => updateValues('email', e)}
                 placeholder={LABELS.email}
@@ -152,7 +152,7 @@ const SignUp = () => {
               />
 
               <CustomTextField
-                label={'Password'}
+                label={LABELS.password}
                 value={values.password.value}
                 onChange={e => updateValues('password', e)}
                 placeholder={LABELS.password}

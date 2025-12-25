@@ -63,11 +63,11 @@ const Login = () => {
 
       //validate required fields
       if (value === '') {
-        updated[key].error = 'This field is required';
+        updated[key].error = LABELS.fieldRequired;
       } else if (key === 'email' && !emailRegex.test(value)) {
         //validate email format
 
-        updated[key].error = 'Invalid email format';
+        updated[key].error = LABELS.invalidEmailFormat;
       } else {
         updated[key].error = undefined;
       }

@@ -9,5 +9,10 @@ export const LABELS = {
   cancel: 'Cancel',
   welcome: 'Welcome',
   userInformation: 'User Information',
-  logout: 'Logout'
+  logout: 'Logout',
+  fieldRequired: 'This field is required',
+  invalidEmailFormat: 'Invalid email format',
+  passwordLengthMessage: 'Password length should be at least 6 characters',
+  userSuccessRegistered: 'User successfully registered',
+  success: 'Success'
 };
